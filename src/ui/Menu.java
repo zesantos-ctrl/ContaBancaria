@@ -1,7 +1,7 @@
 package ui;
 
+import entities.Conta;
 import minhaexcecao.MyException;
-import service.Conta;
 
 public class Menu {
     private Leitura leitura;
@@ -66,7 +66,7 @@ public class Menu {
         if (!temConta()) {
             return;
         }
-        System.out.printf("Saldo: R$ %.2f%n", conta.getSaldo());
+        System.out.println(conta.toString());
     }
 
     public boolean temConta() {

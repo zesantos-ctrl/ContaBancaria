@@ -1,6 +1,5 @@
-package service;
+package entities;
 
-import minhaexcecao.MyException;
 import minhaexcecao.SaldoInsuficiente;
 import minhaexcecao.ValorInvalido;
 
@@ -11,7 +10,7 @@ public class Conta {
 
     public Conta(String nome, double saldo) {
         if (saldo < 0.0) {
-            throw new MyException("Saldo não pode ser negativo!");
+            throw new ValorInvalido("Saldo não pode ser negativo!");
         }
         this.nome = nome;
         this.saldo = saldo;
@@ -31,14 +30,14 @@ public class Conta {
 
     public void depositar(double valor) {
         if (valor <= 0) {
-            throw new MyException("Valor inválido: deve ser maior que zero");
+            throw new ValorInvalido("Valor inválido: deve ser maior que zero");
         }
         saldo += valor;
     }
 
-    public void sacar(double valor) throws SaldoInsuficiente, ValorInvalido{
+    public void sacar(double valor) throws SaldoInsuficiente, ValorInvalido {
         if (valor <= 0) {
-            throw new ValorInvalido("Valor invalido: deve ser maior que zero e menor ou igual a saldo.");
+            throw new ValorInvalido("Valor invalido: deve ser maior que zero.");
         }
         if (valor > saldo) {
             throw new SaldoInsuficiente("Saque insuficiente para o saque!");
@@ -48,9 +47,9 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "Conta [nome=" + nome + ", saldo=" + saldo + "]";
+        return "Nome: "
+                + nome
+                + String.format("\nSaldo: R$ %.2f%n", getSaldo());
     }
-
-    
 
 }
