@@ -33,4 +33,13 @@ public class Leitura {
         System.out.print(mensagem);
         return teclado.nextLine().trim();
     }
+
+    public int lerInteiro(String mensagem) {
+        System.out.println(mensagem);
+        try {
+            return Integer.parseInt(teclado.nextLine().trim());
+        } catch (NumberFormatException e) {
+            throw  new ValorInvalido("Digite apenas numero.");
+        }
+    }
 }

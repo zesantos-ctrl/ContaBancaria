@@ -1,14 +1,19 @@
 package ui;
 
+import entities.Cliente;
 import entities.Conta;
 import minhaexcecao.MyException;
+import service.Banco;
 
 public class Menu {
-    private Leitura leitura;
+    private final Leitura leitura;
+    private final Banco banco;
     private Conta conta;
+  
 
-    public Menu(Leitura leitura) {
+    public Menu(Leitura leitura, Banco banco) {
         this.leitura = leitura;
+        this.banco = banco;
     }
 
     public void iniciar() {
@@ -39,9 +44,13 @@ public class Menu {
             return;
         }
         String nome = leitura.leitorTexto("Digite seu nome: ");
+        String cpf = leitura.leitorTexto("Digite seu CPF: ");
         double saldoInicial = leitura.lerDecimal("Digite o saldo inicial: ");
-        conta = new Conta(nome, saldoInicial);
-        System.out.println("Conta criada com sucesso!");
+
+        Cliente cliente = new Cliente(cpf, nome);
+        conta = banco.criarConta(cliente, saldoInicial);
+
+        System.out.println("Conta criada com sucesso!" + conta.getNumero());
     }
 
     private void depositar() {
@@ -66,10 +75,10 @@ public class Menu {
         if (!temConta()) {
             return;
         }
-        System.out.println(conta.toString());
+        System.out.println(conta);
     }
 
-    public boolean temConta() {
+    private boolean temConta() {
         if (conta == null) {
             System.out.println("Crie uma conta primeiro (Opção 1).");
             return false;
@@ -77,7 +86,7 @@ public class Menu {
         return true;
     }
 
-    public void exibirMenu() {
+    private void exibirMenu() {
         System.out.println("==== Menu ====");
         System.out.println("1 - Criar conta");
         System.out.println("2 - Deposito");

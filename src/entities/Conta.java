@@ -5,23 +5,30 @@ import minhaexcecao.ValorInvalido;
 
 public class Conta {
 
-    private String nome;
     private double saldo;
 
-    public Conta(String nome, double saldo) {
+    private final Cliente cliente;
+
+    private static int contador;
+    private final int numero;
+
+    public Conta(Cliente cliente, double saldo) {
+        if (cliente == null) {
+            throw new ValorInvalido("Cliente não encontrado.");
+        }
+
         if (saldo < 0.0) {
             throw new ValorInvalido("Saldo não pode ser negativo!");
         }
-        this.nome = nome;
+        this.numero = contador;
+        contador++;
+        this.cliente = cliente;
         this.saldo = saldo;
+
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getNumero() {
+        return numero;
     }
 
     public double getSaldo() {
@@ -47,9 +54,11 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "Nome: "
-                + nome
-                + String.format("\nSaldo: R$ %.2f%n", getSaldo());
+        return "Conta  "
+                + contador
+                + " | "
+                + cliente.getCpf()
+                + " | Saldo: R$ "
+                + String.format(" %.2f", saldo);
     }
-
 }
